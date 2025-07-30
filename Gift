@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find Your Perfect Gift!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 { color: #333; }
+    .step { display: none; }
+    .step.active { display: block; }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    label { display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h2>🎁 Find Your Perfect Gift!</h2>
+
+  <div class="step active" id="step1">
+    <p><strong>Step 1:</strong> What are your hobbies? (Choose all that apply)</p>
+    <label><input type="checkbox" name="hobby" value="Art"> Art / Crafts</label>
+    <label><input type="checkbox" name="hobby" value="Fitness"> Fitness</label>
+    <label><input type="checkbox" name="hobby" value="Gaming"> Gaming</label>
+    <label><input type="checkbox" name="hobby" value="Cooking"> Cooking</label>
+    <label><input type="checkbox" name="hobby" value="Music"> Music</label>
+    <label><input type="checkbox" name="hobby" value="Reading"> Reading</label>
+    <button onclick="nextStep(1)">Next</button>
+  </div>
+
+  <div class="step" id="step2">
+    <p><strong>Step 2:</strong> Which stores do you shop at the most?</p>
+    <label><input type="checkbox" name="store" value="Target"> Target</label>
+    <label><input type="checkbox" name="store" value="Amazon"> Amazon</label>
+    <label><input type="checkbox" name="store" value="GameStop"> GameStop</label>
+    <label><input type="checkbox" name="store" value="Trader Joe's"> Trader Joe’s</label>
+    <label><input type="checkbox" name="store" value="Michaels"> Michaels</label>
+    <label><input type="checkbox" name="store" value="Barnes & Noble"> Barnes & Noble</label>
+    <button onclick="nextStep(2)">Next</button>
+  </div>
+
+  <div class="step" id="step3">
+    <p><strong>Step 3:</strong> What do you usually buy from those stores?</p>
+    <input type="text" id="products" placeholder="E.g. candles, books, snacks..." style="width: 100%; padding: 10px;">
+    <button onclick="showResults()">See My Perfect Gift</button>
+  </div>
+
+  <div class="step" id="result">
+    <h3>Your Perfect Gift Is...</h3>
+    <p id="giftSuggestion"></p>
+    <button onclick="location.reload()">Start Over</button>
+  </div>
+</div>
+
+<script>
+  function nextStep(current) {
+    document.getElementById(`step${current}`).classList.remove('active');
+    document.getElementById(`step${current + 1}`).classList.add('active');
+  }
+
+  function showResults() {
+    const hobbies = [...document.querySelectorAll('input[name="hobby"]:checked')].map(cb => cb.value);
+    const stores = [...document.querySelectorAll('input[name="store"]:checked')].map(cb => cb.value);
+    const products = document.getElementById("products").value.toLowerCase();
+
+    let gift = "a thoughtful gift card!";
+
+    if (hobbies.includes("Art") && stores.includes("Michaels")) {
+      gift = "an advanced sketch kit or paint set 🎨";
+    } else if (hobbies.includes("Fitness") && products.includes("protein")) {
+      gift = "a high-quality gym bag with snacks 🏋️";
+    } else if (hobbies.includes("Gaming") && stores.includes("GameStop")) {
+      gift = "a wireless gaming headset 🎧";
+    } else if (hobbies.includes("Cooking") && stores.includes("Trader Joe's")) {
+      gift = "a gourmet spice set or a cute apron 🍳";
+    } else if (hobbies.includes("Reading") && stores.includes("Barnes & Noble")) {
+      gift = "a cozy reading lamp and a bestselling novel 📚";
+    } else if (hobbies.includes("Music") && products.includes("headphones")) {
+      gift = "premium Bluetooth earbuds or a Spotify gift card 🎵";
+    }
+
+    document.getElementById("giftSuggestion").innerText = `We recommend ${gift}`;
+    nextStep(3);
+  }
+</script>
+
+</body>
+</html>
